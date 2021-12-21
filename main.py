@@ -1,6 +1,6 @@
 import os
 import re
-
+import Deteccion.inherente as deI
 def leerProgramaRam()-> list:
     nombreArchivo='./input.asc'
     if os.path.exists(nombreArchivo):
@@ -8,7 +8,7 @@ def leerProgramaRam()-> list:
             leido=f.readlines()
             resultado=[]
             for linea in leido:
-                resultado.append(linea.strip())
+                resultado.append(linea.rstrip())
             return resultado
     else:
         f = open(nombreArchivo, "x")
@@ -35,4 +35,5 @@ def main():
         print(programa_Paso1)
 
 if __name__== "__main__":
-    main()
+    #main()
+    deI.detectar('nop')
