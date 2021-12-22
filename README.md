@@ -59,6 +59,18 @@ linea='  ORG  $8000'
 
 ### Inmediato
 
+![Deteccion_Inmediato](Documentacion/Deteccion_Inmediato.png)
+
+- Si llega a `q12` es éxito.
+
+**Errores detectados**
+
+- 004  MNEMÓNICO INEXISTENTE
+- 005  INSTRUCCIÓN CARECE DE OPERANDO(S)
+- 007  MAGNITUD DE OPERANDO ERRONEA (Detección,Pre-compilación)
+- 009  INSTRUCCIÓN CARECE DE ALMENOS UN ESPACIO RELATIVO AL MARGEN
+- 011 MÁS OPERANDOS DE LOS NECESARIOS (EXTRA).
+
 
 
 
