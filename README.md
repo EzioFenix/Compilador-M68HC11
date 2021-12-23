@@ -82,6 +82,18 @@ linea='  ORG  $8000'
 - 007  MAGNITUD DE OPERANDO ERRONEA (Detección,Pre-compilación)
 - 009  INSTRUCCIÓN CARECE DE ALMENOS UN ESPACIO RELATIVO AL MARGEN
 
+# Base de datos
+
+Modos:
+
+1. Inherente
+2. Inmediato
+3. directo
+4. x
+5. x
+6. x
+   1. Extendido
+
 
 # Uso
 
