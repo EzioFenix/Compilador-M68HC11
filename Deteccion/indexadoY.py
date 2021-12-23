@@ -41,13 +41,13 @@ def q3(linea:str):
     instruccion=instruccion.lower()
     print(instruccion)
 
-    
-    if BaseDatos.bdSearch(instruccion,7)!=None:
-        return q5(linea[finalActual:])
+    # Si regresa instrucción en ese modo
+    if BaseDatos.bdSearch(instruccion,5)!=None:
+        return q4(linea[finalActual:])
     else:
         raise Error4.Error4('')
     
-def q5(linea:str):
+def q4(linea:str):
     print('q4')
     print(linea)
     pattern='^\s+'
@@ -55,23 +55,32 @@ def q5(linea:str):
     
     if busqueda:
         inicioSiguiente =busqueda.end()
-        return q7(linea[inicioSiguiente:])
+        return q5(linea[inicioSiguiente:])
     else:
         raise Error5.Error5('')
     
-def q7(linea:str):
-    print('q7 ' + linea)
-    pattern1='^\$([0-9]|[a-f]|[A-F]){1,4}$' #Hex
-    pattern2='^[0-9]{1,5}$' # Dec
+def q5(linea:str):
+    print('q5 ' + linea)
+    pattern1='^\$([0-9]|[a-f]|[A-F]){1,4}' #Hex
     busqueda1=re.search(pattern1,linea)
-    busqueda2=re.search(pattern2,linea)
+    finalActual =busqueda1.end()
 
-    if busqueda1 or busqueda2:
-        return True
+    if busqueda1:
+        return q8(linea[finalActual:])
     else:
         raise Error7.Error7('')
     
+def q8(linea:str):
+    print('q7 '+ linea)
+    pattern='^,(y|Y)$'
+    busqueda=re.search(pattern, linea)
     
+    if busqueda:
+        return True
+    else:
+        raise Error7.Error7('')
+
+
 def detectar(linea:str):
     try:
         print(q0(linea)) 

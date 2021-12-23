@@ -46,4 +46,5 @@ if __name__== "__main__":
     #deDi.detectar(' ldaa 055')
     #deEx.detectar(' bclr 055')
     #deIndeX.detectar(' ldaa   $4500,x')
+    deIndeY.detectar(' ldaa   $1,y')
     
