@@ -42,7 +42,7 @@ def q3(linea:str):
     print(instruccion)
 
     
-    if BaseDatos.bdSearch(instruccion,3)!=None:
+    if BaseDatos.bdSearch(instruccion,7)!=None:
         return q5(linea[finalActual:])
     else:
         raise Error4.Error4('')
@@ -61,8 +61,8 @@ def q5(linea:str):
     
 def q7(linea:str):
     print('q7 ' + linea)
-    pattern1='^\$([0-9]|[a-f]|[A-F]){1,2}$' #Hex
-    pattern2='^[0-9]{1,3}$' # Dec
+    pattern1='^\$([0-9]|[a-f]|[A-F]){1,4}$' #Hex
+    pattern2='^[0-9]{1,5}$' # Dec
     busqueda1=re.search(pattern1,linea)
     busqueda2=re.search(pattern2,linea)
 

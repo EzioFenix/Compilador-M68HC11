@@ -3,6 +3,7 @@ import re
 import Deteccion.inherente as deIh
 import Deteccion.inmediato as deIn
 import Deteccion.directo as deDi
+import Deteccion.extendido as deEx
 def leerProgramaRam()-> list:
     nombreArchivo='./input.asc'
     if os.path.exists(nombreArchivo):
@@ -41,3 +42,4 @@ if __name__== "__main__":
     #deIh.detectar(' nop')
     #deIn.detectar(' ldaa  #65535')
     #deDi.detectar(' ldaa 055')
+    deEx.detectar(' bclr 055')
