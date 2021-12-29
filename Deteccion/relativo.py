@@ -2,9 +2,9 @@ import re
 from Error import Error4,Error5,Error7,Error9
 from DataBase import BaseDatos
 
-def q0(linea:str)->str:
-    #print(linea)
-    resultado='false'
+def q0(linea:str)-> str:
+    # print(linea)
+    resultado=''
     pattern='^\s+'
     busqueda=re.search(pattern,linea)
     
@@ -32,26 +32,27 @@ def  q2(linea:str)->str:
 
 def q3(linea:str)->str:
     #print(linea)
-    pattern='^[a-zA-Z]+'
+    pattern='^[a-zA-Z0-9]+'
     busqueda=re.search(pattern, linea)
 
     if busqueda:
         finalActual =busqueda.end()
         inicioActual=busqueda.start()
         
+        
         instruccion=linea[inicioActual:finalActual]
         instruccion=instruccion.lower()
 
         # Si regresa instrucción en ese modo
-        if BaseDatos.bdSearch(instruccion,4)!=None:
+        if BaseDatos.bdSearch(instruccion,6)!=None:
             return q4(linea[finalActual:])
         else:
             raise Error4.Error4('')
     else:
         return 'false'
 
-  
-def q4(linea:str)->str:
+
+def q4(linea:str)-> str:
     #print('q4 ' + linea)
     pattern='^\s+'
     busqueda=re.search(pattern,linea)
@@ -61,32 +62,20 @@ def q4(linea:str)->str:
         return q5(linea[inicioSiguiente:])
     else:
         raise Error5.Error5('')
-
-
-def q5(linea:str)-> str:
-    #print('q5 ' + linea)
-    pattern='^\$([0-9]|[a-f]|[A-F]){1,2}' #Hex
-    busqueda=re.search(pattern,linea)
-    finalActual =busqueda1.end()
-
-    if busqueda:
-        return q8(linea[finalActual:])
-    else:
-        raise Error7.Error7('')
-
-
-def q8(linea:str)-> str:
-    #print('q7 '+ linea)
-    pattern='^,(x|X)$'
-    busqueda=re.search(pattern, linea)
     
+def q5(linea:str)-> str:
+    # print('q5 ' + linea)
+    pattern='^([a-z]|[A-Z]|[0-9]){1,12}$' #Hex
+    busqueda=re.search(pattern1,linea)
+    finalActual =busqueda.end()
+
     if busqueda:
         return 'true'
     else:
         raise Error7.Error7('')
+    
 
-
-def detectar(linea:str):
+def detectar(linea:str)-> str:
     try:
         resultado=q0(linea)
         #print(resultado)
@@ -101,7 +90,7 @@ def detectar(linea:str):
         return 'e07'
         #print('007  MAGNITUD DE OPERANDO ERRONEA')
     except Error9.Error9:
-        return 'e09'
+        return 'e08'
         #print ('009  INSTRUCCIÓN CARECE DE ALMENOS UN ESPACIO RELATIVO AL MARGEN')
     except Exception as e: 
         print ("This is an error message!{}".format(e))

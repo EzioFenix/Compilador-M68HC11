@@ -82,6 +82,56 @@ linea='  ORG  $8000'
 - 007  MAGNITUD DE OPERANDO ERRONEA (Detección,Pre-compilación)
 - 009  INSTRUCCIÓN CARECE DE ALMENOS UN ESPACIO RELATIVO AL MARGEN
 
+### Extendido
+
+
+
+### Indexado
+
+![Deteccion_Indexado](Documentacion/Deteccion_Indexado.png)
+
+- Si llega a **q10** es éxito.
+- Se tiene que hacer dos archivos diferentes, uno `indexadoX.py`, `indexadoY.py` para identificar en cualquiera de los dos casos.
+
+#### Errores detectados
+
+- 004  MNEMÓNICO INEXISTENTE
+- 005  INSTRUCCIÓN CARECE DE OPERANDO(S)
+- 007  MAGNITUD DE OPERANDO ERRONEA (Detección,Pre-compilación)
+- 009  INSTRUCCIÓN CARECE DE ALMENOS UN ESPACIO RELATIVO AL MARGEN
+
+### Relativo
+
+![Deteccion_Relativo](Documentacion/Deteccion_Relativo.png)
+
+
+
+### Org
+
+![Deteccion_Org](Documentacion/Deteccion_Org.png)
+
+#### Errores detectados
+
+- 005  INSTRUCCIÓN CARECE DE OPERANDO(S)
+- 007  MAGNITUD DE OPERANDO ERRONEA (Detección,Pre-compilación)
+- 009  INSTRUCCIÓN CARECE DE ALMENOS UN ESPACIO RELATIVO AL MARGEN
+
+###  Variables y constantes
+
+![Deteccion_variable_constante](Documentacion/Deteccion_variable_constante.png)
+
+### End	
+
+![Deteccion_End](Documentacion/Deteccion_End.png)
+
+### Global
+
+![Deteccion_Global](Documentacion/Deteccion_Global.png)
+
+### Proceso Compilación global
+
+![Proceso_compilacion](Documentacion/Proceso_compilacion.png)
+
 # Base de datos
 
 Modos:
@@ -89,12 +139,12 @@ Modos:
 1. Inherente
 2. Inmediato
 3. directo
-4. x
-5. x
-6. x
-   1. Extendido
+4. Indexado X
+5. Indexado y
+6. Relativo
+7. Extendido
 
 
 # Uso
 
-1. Busca si existe un archivo llamado `input.asc` con codificación ANSI lo lee en caso de que no exista, le crea un archivo con el nombre y se cierra.
+1. Busca si existe un archivo llamado `input.asc` con codificación ANSI lo lee en caso de que no exista, le crea un archivo con el nombre y se cierra.			

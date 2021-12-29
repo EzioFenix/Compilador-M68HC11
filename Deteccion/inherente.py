@@ -3,8 +3,8 @@ from Error import Error4,Error6,Error9
 from DataBase import BaseDatos
 
 def q0(linea:str):
-    print(linea)
-    resultado=False
+    #print('q0' + linea)
+    resultado=''
     pattern='^\s+'
     busqueda=re.search(pattern,linea)
     
@@ -16,59 +16,61 @@ def q0(linea:str):
         busqueda=re.search(pattern,' '+linea)
         if busqueda:
             inicioSiguiente =busqueda.end()-1 #puede iniciar en 0 hasta indice final
-        if q1(linea[inicioSiguiente:]) == True:
+        if q1(linea[inicioSiguiente:]) =='true':
             raise Error9.Error9('')
 
 def  q1(linea:str):
-    print(linea)
+    # print('q1 ' + linea)
     pattern='^[a-zA-Z]+'
     busqueda=re.search(pattern, linea)
     
     if busqueda:
         return q2(linea)
     else:
-        return False
+        return 'false'
     
 def q2(linea:str):
-    print(linea)
+    # print('q2 ' + linea)
     pattern='^[a-zA-Z]+'
     busqueda=re.search(pattern, linea)
     
-    finalActual =busqueda.end()
-    inicioActual=busqueda.start()
-    
-    
-    instruccion=linea[inicioActual:finalActual]
-    instruccion=instruccion.lower()
-    print(instruccion)
-
-    
-    if BaseDatos.bdSearch(instruccion,1)!=None:
-        return q5(linea[finalActual:])
+    if busqueda:
+        finalActual =busqueda.end()
+        inicioActual=busqueda.start()
+        instruccion=linea[inicioActual:finalActual]
+        instruccion=instruccion.lower()
+        
+        if BaseDatos.bdSearch(instruccion,1)!=None:
+            return q5(linea[finalActual:])
     else:
         raise Error4.Error4('')
     
 def q5(linea:str):
-    print('q5')
-    print(linea)
-    pattern='^\s+'
+    # print('q5' + linea)
+    pattern='$'
     busqueda=re.search(pattern,linea)
     
     if busqueda:
-        raise Error6.Error6('')
+        return 'true'
     else:
-        return True
+        
+        raise Error6.Error6('')
     
     
 def detectar(linea:str):
     try:
-        print(q0(linea)) 
+        resultado=q0(linea)
+        #print(resultado)
+        return resultado 
     except Error4.Error4:
-        print('004  MNEMÓNICO INEXISTENTE')
+        return 'e04'
+        #print('004  MNEMÓNICO INEXISTENTE')
     except Error6.Error6:
-        print('006  INSTRUCCIÓN NO LLEVA OPERANDO(S)')
+        return 'e06'
+        #print('006  INSTRUCCIÓN NO LLEVA OPERANDO(S)')
     except Error9.Error9:
-        print ('009  INSTRUCCIÓN CARECE DE ALMENOS UN ESPACIO RELATIVO AL MARGEN')
+        return 'e09'
+        #print ('009  INSTRUCCIÓN CARECE DE ALMENOS UN ESPACIO RELATIVO AL MARGEN')
     except Exception as e: 
         print ("This is an error message!{}".format(e))
         

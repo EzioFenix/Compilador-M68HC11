@@ -2,9 +2,9 @@ import re
 from Error import Error4,Error5,Error7,Error9
 from DataBase import BaseDatos
 
-def q0(linea:str):
-    print(linea)
-    resultado=False
+def q0(linea:str)-> str:
+    #print(linea)
+    resultado=''
     pattern='^\s+'
     busqueda=re.search(pattern,linea)
     
@@ -15,41 +15,40 @@ def q0(linea:str):
         busqueda=re.search(pattern,' '+linea)
         if busqueda:
             inicioSiguiente =busqueda.end()-1 #puede iniciar en 0 hasta indice final
-        if q1(linea[inicioSiguiente:]) == True:
+        if q1(linea[inicioSiguiente:]) == 'true':
             raise Error9.Error9('')
 
-def  q1(linea:str):
-    print(linea)
+def  q1(linea:str)-> str:
+    #print(linea)
     pattern='^[a-zA-Z]+'
     busqueda=re.search(pattern, linea)
     
     if busqueda:
         return q3(linea)
     else:
-        return False
+        return 'false'
     
-def q3(linea:str):
-    print(linea)
+def q3(linea:str)-> str:
+    #print(linea)
     pattern='^[a-zA-Z]+'
     busqueda=re.search(pattern, linea)
-    
-    finalActual =busqueda.end()
-    inicioActual=busqueda.start()
-    
-    
-    instruccion=linea[inicioActual:finalActual]
-    instruccion=instruccion.lower()
-    print(instruccion)
 
+    if busqueda:
+        finalActual =busqueda.end()
+        inicioActual=busqueda.start()
+        
+        instruccion=linea[inicioActual:finalActual]
+        instruccion=instruccion.lower()
     
-    if BaseDatos.bdSearch(instruccion,2)!=None:
-        return q5(linea[finalActual:])
+        if BaseDatos.bdSearch(instruccion,3)!=None:
+            return q5(linea[finalActual:])
+        else:
+            raise Error4.Error4('')
     else:
-        raise Error4.Error4('')
+        return 'false'
     
-def q5(linea:str):
-    print('q4')
-    print(linea)
+def q5(linea:str)->str:
+    #print('q5 ' + linea)
     pattern='^\s+'
     busqueda=re.search(pattern,linea)
     
@@ -59,30 +58,36 @@ def q5(linea:str):
     else:
         raise Error5.Error5('')
     
-def q7(linea:str):
-    print('q7 ' + linea)
+def q7(linea:str)-> str:
+    #print('q7 ' + linea)
     pattern1='^\$([0-9]|[a-f]|[A-F]){1,2}$' #Hex
     pattern2='^[0-9]{1,3}$' # Dec
     busqueda1=re.search(pattern1,linea)
     busqueda2=re.search(pattern2,linea)
 
     if busqueda1 or busqueda2:
-        return True
+        return 'true'
     else:
         raise Error7.Error7('')
     
     
-def detectar(linea:str):
+def detectar(linea:str)-> str:
     try:
-        print(q0(linea)) 
+        resultado=q0(linea)
+        #print(resultado)
+        return resultado
     except Error4.Error4:
-        print('004  MNEMÓNICO INEXISTENTE')
+        return 'e04'
+        #print('004  MNEMÓNICO INEXISTENTE')
     except Error5.Error5:
-        print('005  INSTRUCCIÓN CARECE DE OPERANDO(S)')
+        return 'e05'
+        #print('005  INSTRUCCIÓN CARECE DE OPERANDO(S)')
     except Error7.Error7:
-        print('007  MAGNITUD DE OPERANDO ERRONEA')
+        return 'e07'
+        #print('007  MAGNITUD DE OPERANDO ERRONEA')
     except Error9.Error9:
-        print ('009  INSTRUCCIÓN CARECE DE ALMENOS UN ESPACIO RELATIVO AL MARGEN')
+        return 'e09'
+        #print ('009  INSTRUCCIÓN CARECE DE ALMENOS UN ESPACIO RELATIVO AL MARGEN')
     except Exception as e: 
         print ("This is an error message!{}".format(e))
         
