@@ -1,5 +1,6 @@
 import os
 import re
+#---------------------------- importacioens deteccion paso 1----------------------------
 import Deteccion.inherente as deIherente #m1
 import Deteccion.inmediato as deInmediato #m2
 import Deteccion.directo as deDirecto #m3
@@ -10,6 +11,10 @@ import Deteccion.extendido as deExtendido #m7
 import Deteccion.org as deOrg
 import Deteccion.end as deEnd
 import Deteccion.variable_constante as deVariable
+#---------------------------- importacioens precompilar paso 2----------------------------
+import Precompilar.inherente as preInherente
+import Precompilar.org as preOrg
+import Precompilar.programCounter as prePc
 
 def leerProgramaRam()-> list:
     nombreArchivo='./input.asc'
@@ -37,6 +42,19 @@ def eliminarLineasVacias(programa_Paso1:list)->list:
 def main():
     programa_Paso1=[] # programa leido en memoria ram
     programa_Paso2=[] # almacena el modo en el que esta detectado
+    programa_Paso3=[]
+    PC=prePc.programCounter()
+    lista_errores=['001 CONSTANTE INEXISTENTE',
+    '002 VARIABLE INEXISTENTE',
+    '003 ETIQUETA INEXISTENTE',
+    '004 MNEMÓNICO INEXISTENTE',
+    '005 INSTRUCCIÓN CARECE DE  OPERANDO(S)',
+    '006 INSTRUCCIÓN NO LLEVA OPERANDO(S)',
+    '007 MAGNITUD DE  OPERANDO ERRONEA',
+    '008 SALTO RELATIVO MUY LEJANO',
+    '009 INSTRUCCIÓN CARECE DE ALMENOS UN ESPACIO RELATIVO AL MARGEN',
+    '010 NO SE ENCUENTRA END',
+    '011 VARIABLE REPETIDA']
     programa_Paso1=leerProgramaRam()
 
     if programa_Paso1 ==None:
@@ -89,9 +107,56 @@ def main():
         
         programa_Paso2.append(modo)
     #print(programa_Paso2)
+
+    # Paso 3 Precompilar-----------------------------------------
+    indice=0
+    isEnd=False # Detecta si el end apareció en el programa
+    for linea in programa_Paso2:
+        precompilacionValor=''
+        if linea[0]=='d': #directiva
+            if linea[1]=='0':
+                pcAux=preOrg.precompilar(programa_Paso1[indice])
+                PC.set(pcAux)
+                precompilacionValor='null'
+            if linea[1]=='1': # End
+                isEnd=True
+                precompilacionValor='null'
+                programa_Paso3.append(precompilacionValor)
+                break
+            if linea[1]=='2':
+                pass
+            if linea[1]=='3':
+                pass
+        elif linea[0]=='m': # Modo
+            if linea[1]=='0': #inherente
+                pcAux=PC.get()
+                precompilacionValor= preInherente.precompilar(programa_Paso1[indice],pcAux)
+                pcAux=precompilacionValor.bytesOcupados
+                print(pcAux)
+                PC.incrementar(pcAux)
+            if linea[1]=='1': #inmediato
+                pass
+            if linea[1]=='2':
+                pass
+            if linea[1]=='3':
+                pass
+            if linea[1]=='4':
+                pass
+            if linea[1]=='5':
+                pass
+            if linea[1]=='6':
+                pass
+        elif linea[0]=='e': # error
+            numero=int(linea[1:])
+            precompilacionValor=lista_errores[numero]
+
+        programa_Paso3.append(precompilacionValor)
+        indice+=1 
+
             
     for i in range(0,len(programa_Paso2)):
         print(programa_Paso1[i] + ' ' +programa_Paso2[i] )
+        print(programa_Paso3[i])
 
 if __name__== "__main__":
     main()

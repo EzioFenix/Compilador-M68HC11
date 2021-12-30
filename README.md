@@ -144,6 +144,12 @@ Modos:
 6. Relativo
 7. Extendido
 
+# Precompilar
+
+### Inherente
+
+![Mesa de trabajo 1](Documentacion/Precompilar/PNG/Mesa de trabajo 1.png)
+
 
 # Uso
 
