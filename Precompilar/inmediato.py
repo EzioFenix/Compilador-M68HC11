@@ -5,8 +5,10 @@ from .precompilada import precompilada
 from typing import Pattern
 
 def precompilar(linea: str,pc:str)-> precompilada:
-    pattern='[a-zA-Z]+'
+    pattern='[a-zA-Z]+'     
     mnemonicoBusqueda=re.search(pattern,linea,re.IGNORECASE)
+
+    operandoPrecompilado=''
 
     # Obtenemos el mnemonico-------------------------------
     mnemonicoInicio=mnemonicoBusqueda.start()
@@ -14,7 +16,77 @@ def precompilar(linea: str,pc:str)-> precompilada:
     mnemonico =linea[mnemonicoInicio:mnemonicoFin]
 
     # Consulta a la base de datos-------------------------------
-    consultaBd:BdRow = BaseDatos.bdSearch(mnemonico,1)
+    consultaBd:BdRow = BaseDatos.bdSearch(mnemonico,2)
+
+    error=''
+
+    # Detectamos el tipo de operando
+    pattern='#'
+    pattern1='^\$([0-9]|[a-f]|[A-F]){1,4}$' #Hex
+    pattern2='^[0-9]{1,5}$' # Dec
+    pattern3='^’(\S| ){1}' #un caracter o un espacio
+    busqueda=re.search(pattern,linea)
+    inicioHastag=busqueda.start()
+
+    busqueda1=re.search(pattern1,linea[inicioHastag:])
+    busqueda2=re.search(pattern2,linea[inicioHastag:])
+    busqueda3=re.search(pattern3,linea[inicioHastag:])
+
+    if busqueda1: #Hex
+        inicio=busqueda1.start()
+        fin=busqueda1.end()
+
+        #--- Parece tonto pero elimina los ceros de más, si conviertes 2 veces
+        operando:str='0x' + linea[inicio:fin]
+        operando:int=int(operando,16)
+        operando:str=hex(operando)
+
+        # Calculamos  los bytes de cada cosa
+        bytesOperando=int(round((len(operando)-2)/2)) # le menos 2 es por 0x, el round es porque 3 digitos son 2 bytes
+        bytesOpcode=int(round( len(consultaBd.opcode)/2))
+        bytesOcupados= bytesOperando+ bytesOpcode
+        bytesRestantes=consultaBd.bytes- bytesOcupados
+
+        # Comprobamos si el operando es correcto
+        if 0<=bytesRestantes:
+            operandoPrecompilado= linea[inicio:fin]
+        else:
+            error='e07'
+    elif busqueda2: # Dec
+        inicio=busqueda2.start()
+        fin=busqueda2.end()
+        operando=int(linea[inicio:fin])
+
+        # Compilamos el operando a hex
+        operando:str=hex(operando)
+        
+        #--- Parece tonto pero elimina los ceros de más, si conviertes 2 veces
+        operando:str='0x' + linea[inicio:fin]
+        operando:int=int(operando,16)
+        operando:str=hex(operando)
+
+        # Calculamos  los bytes de cada cosa
+        bytesOperando=int(round((len(operando)-2)/2)) # le menos 2 es por 0x, el round es porque 3 digitos son 2 bytes
+        bytesOpcode=int(round( len(consultaBd.opcode)/2))
+        bytesOcupados= bytesOperando+ bytesOpcode
+        bytesRestantes=consultaBd.bytes- bytesOcupados
+
+        # Comprobamos si el operando es correcto
+        if 0<=bytesRestantes:
+            operandoPrecompilado= linea[inicio:fin]
+        else:
+            error='e07'
+
+    elif busqueda3: # Ascii
+        inicio=busqueda3.start()
+        fin=busqueda3.end()
+        operando=ord(linea[inicio:fin]) # traduce a su valor en numerico
+        if ord<128:
+            operando=hex(operando)
+            operandoPrecompilado=operando[2:]
+        else:
+            error='e07'
+
 
     # Datos directos--------------------------------------
     lineaPrecompilada=precompilada(pc,consultaBd.opcode,'',consultaBd.byte)

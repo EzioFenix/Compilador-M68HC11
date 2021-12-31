@@ -144,13 +144,79 @@ Modos:
 6. Relativo
 7. Extendido
 
+## Ejemplo uso
+
+La base de datos esta en un paquete
+
+
+ubicación con respecto al archivo `main_pruebas.py`
+
+![image-20211230121627798](image-20211230121627798.png)
+
+
+
+````python
+import DataBase.BaseDatos as bd
+import DataBase.BdRow as bdRow
+
+
+valor:bdRow.BdRow= bd.bdSearch('aba',1)
+print(type(valor.byte))
+print('bytes: ' + str(valor.byte))
+print('---------------------')
+print(type(valor.ciclo))
+print('ciclos: ' + str(valor.ciclo))
+print('---------------------')
+print(type(valor.id))
+print('Id: ' +str(valor.id))
+print('---------------------')
+print(type(valor.mod))
+print('Modo: ' +str(valor.mod))
+print('---------------------')
+print(type(valor.no))
+print('No. ' + str(valor.no))
+print('---------------------')
+print(type(valor.opcode))
+print('Opcode ' +valor.opcode)
+print('---------------------')
+print(type(valor.mnemonico))
+print('Mnemonico ' +valor.mnemonico)
+print(valor)
+````
+
+Ahora veamos el resultado
+
+![image-20211230123857121](image-20211230123857121.png)
+
 # Precompilar
 
 ### Inherente
 
-![Mesa de trabajo 1](Documentacion/Precompilar/PNG/Mesa de trabajo 1.png)
+![inherente](Documentacion/Precompilar/PNG/inherente.png)
 
+# Inmediato
+
+![inmediato](Documentacion/Precompilar/PNG/inmediato.png)
+
+# Directo
+
+
+
+# Extendido
+
+# Indexado
+
+# Relativo
+
+
+
+# Resultado de compilación entendible para humano
+
+![image-20211230235517939](image-20211230235517939.png)
+
+# Resultado de compilación entendible para máquina S19	
 
 # Uso
 
 1. Busca si existe un archivo llamado `input.asc` con codificación ANSI lo lee en caso de que no exista, le crea un archivo con el nombre y se cierra.			
+2. A:\EyPC_Proyecto_1\ManipulacionArchivos
