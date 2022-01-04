@@ -44,7 +44,7 @@ class precompilada():
 
 
     def htmlDiv(self,texto:str,clase:str)->str:
-        textoHtml='<div class="%s">%s</div>\n'%(clase,texto)
+        textoHtml='<div class="%s">%s</div>'%(clase,texto)
         return textoHtml
 
 
@@ -64,15 +64,15 @@ class precompilada():
                 pc=self.htmlDiv(pcImprimir,'pc')
                 opcode= self.htmlDiv(self.opcode,'opcode')
                 aux=[numLinea,pc,opcode]
-                print(aux)
+                #print(aux)
 
 
             # Unimos todo el texto que se tiene que devolver
             for linea in aux:
-                resultado+= linea
+                resultado+= '\n\t\t\t\t' + linea
 
             # Envolvemos en el div de instrucción
-            resultado=self.htmlDiv(resultado,'instruccion')
+            resultado='\n\t\t\t' +self.htmlDiv(resultado,'instruccion')
 
             # Devolvemos convertido en html
             print(resultado + '\n')

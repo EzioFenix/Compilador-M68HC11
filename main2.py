@@ -197,21 +197,21 @@ def main():
         """
 
         # Partes de html que se escribiran las instrucciónes no compiladas
-        divInstruc='<div class="instruccion"><div class="pc">%s</div></div>\n'
+        divInstruc='\n\t\t\t<div class="instruccion">\n\t\t\t\t<div class="pc">%s</div>\n\t\t\t</div>'
 
         # escribimos el inicio del html-----------------
         with open (inicio) as r:
             f.writelines(r.readlines())
 
         # escribimos lo der achivo input------------------
-        f.write('<div id="input">')   
+        f.write('\n\t\t<div id="input">')   
         for linea in programa_Paso1:
-            aux=divInstruc%(linea)
+            aux=divInstruc%(linea.strip())
             f.write(aux)
-        f.write('</div>\n')
+        f.write('\n\t\t</div>')
         
         # escribimos la salida-----------------------------
-        f.write('<div id="output">') 
+        f.write('\n\t\t<div id="output">') 
         for linea in programa_Paso4_Humana:
             f.write(linea)
         f.write('</div>\n')

@@ -245,3 +245,13 @@ jmp INICIO == jump HEX(8000) = jump 8000
 # Documentación
 
 ## Archivos para probar el 
+
+
+
+# Resultado compilación
+
+## Puro inerente
+
+![image-20220104145955518](img/image-20220104145955518.png)
+
+## Puro inmediato
