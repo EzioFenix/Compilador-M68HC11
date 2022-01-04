@@ -10,7 +10,7 @@ def precompilar(numLinea:int,linea: str,pc:str)-> precompilada:
     operandoPrecompilado=''
 
     # Buscamos el mnemonico
-    pattern='[a-zA-Z]+'     
+    pattern='[a-zA-Z]{3,5}'
     mnemonicoBusqueda=re.search(pattern,linea,re.IGNORECASE)
 
     # Obtenemos el mnemonico-------------------------------
@@ -19,20 +19,18 @@ def precompilar(numLinea:int,linea: str,pc:str)-> precompilada:
     mnemonico =linea[mnemonicoInicio:mnemonicoFin]
 
     # Consulta a la base de datos-------------------------------
-    consultaBd:BdRow = BaseDatos.bdSearch(mnemonico,2)
+    consultaBd:BdRow = BaseDatos.bdSearch(mnemonico,3)
 
     # Detectamos el tipo de operando
-    pattern='#'
+    pattern='[a-zA-Z]{3,5}\s+'
     pattern1='^\$([0-9]|[a-f]|[A-F]){1,4}$' #Hex
-    pattern2='^[0-9]{1,5}$' # Dec
-    pattern3='^’(\S| ){1}$' #un caracter o un espacio
+    pattern2='^[0-9]{1,3}$' # Dec
     busqueda=re.search(pattern,linea)
-    inicioHastag=busqueda.start()
+    inicioOperando=busqueda.start()
 
     # A partir del hashtrag buscamos el operando
-    busqueda1=re.search(pattern1,linea[inicioHastag:])
-    busqueda2=re.search(pattern2,linea[inicioHastag:])
-    busqueda3=re.search(pattern3,linea[inicioHastag:])
+    busqueda1=re.search(pattern1,linea[inicioOperando:])
+    busqueda2=re.search(pattern2,linea[inicioOperando:])
 
     if busqueda1: #Hex
         inicio=busqueda1.start()
@@ -78,17 +76,6 @@ def precompilar(numLinea:int,linea: str,pc:str)-> precompilada:
             operandoPrecompilado= linea[inicio:fin]
         else:
             error='e07'
-
-    elif busqueda3: # Ascii
-        inicio=busqueda3.start()
-        fin=busqueda3.end()
-        operando=ord(linea[inicio:fin]) # traduce a su valor en numerico
-        if ord<128:
-            operando=hex(operando)
-            operandoPrecompilado=operando[2:]
-        else:
-            error='e07'
-
 
     # Datos directos--------------------------------------
     lineaPrecompilada=precompilada(numLinea,pc,consultaBd.opcode,operando,consultaBd.byte)

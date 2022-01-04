@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <style>
+        :root {
+            --border-color: #28FFBF;
+            --head-color: #FF94CC;
+            font-size: 20px;
+
+            /*Colores de instrucciones*/
+            --lineaCodigo: #FF00E4;
+            --pc:white;
+            --opcode:#FF5C58;
+            --operador: #8236CB;
+            --directiva: #3DB2FF;
+            --error: #FF0000;
+            --comentario: gray;
+
+
+        }
+        *{
+            padding: 0px;
+            margin: 0px;
+            border: 0px;
+        }
+
+        body{
+            background-color: #000;
+        }
+        .container {
+            box-sizing: border-box;
+            display: inline-flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            margin: 4.5vw;
+            width: 90vw;
+            border: 0.5vw solid var(--border-color);
+        }
+        
+        h1{
+            box-sizing: border-box;
+            padding: 0.5vh 0px;
+            display: inline-flex;
+            width: 44vw;
+            text-align: center;
+            height: 2em;
+            color: var(--head-color);
+            border-color: var(--head-color);
+            border: 10px solid var(--head-color);;
+            justify-content: center;
+        }
+
+        .instruccion{
+            display: inline-flex;
+            flex-wrap: wrap;
+            width: 44vw;
+            justify-content: flex-start;
+            font-size: 1em;
+            padding-bottom: 1vh;
+            padding-left: 0.5vw;
+            margin-top: 0.5vh;
+            color: black; border: 5px solid black;
+        }
+        
+        section >div
+        {
+            display: inline-flex;
+            flex-wrap: wrap;
+            width: 44vw;
+            justify-content: flex-start;
+            font-size: 1em;
+            padding-bottom: 1vh;
+            padding-left: 0.5vw;
+        }
+        div>div >div{
+            font-size: 1.5em;
+            height: 1em;
+            width: fit-content;
+            padding: 0px;
+            margin: 0%;
+            margin-right: 0.5vw;
+            margin-left: 0.5vh;
+            margin-top: 0.5em;
+            color: white;
+        }
+        .instruccion:hover { color: #00FF00; border: 5px solid #00FF00;}
+        #output >.instruccion:hover { color: #ff0000; border: 5px solid #ff0000;}
+        /* Estilos para el compilador */
+        .lineaCodigo{ border: 5px solid var(--lineaCodigo); color: var(--lineaCodigo);}
+        .pc{border: 5px solid var(--pc); color: var(--pc);}
+        .opcode{border: 5px solid var(--opcode); color: var(--opcode);}
+        .operador{border: 5px solid var(--operador); color: var(--operador);}
+        .directiva{border: 5px solid var(--directiva); color: var(--directiva);}
+        .error{border: 5px solid var(--error); color: var(--error);}
+        .comentario{border: 5px solid var(--comentario); color: var(--comentario);}
+
+    </style>
+    <section class="container">
+        <h1 style="margin-right: 1vw;">Input</h1>
+        <h1>Output</h1>
+        <div id="input">
+            <div class="instruccion">
+                <div class="lineaCodigo">
+                ORG  $8000</div>
+    </div>
+    <div class="instruccion"><div class="pc">	NOP</div></div><div class="instruccion"><div class="pc">	INX</div></div><div class="instruccion"><div class="pc">	DEX</div></div><div class="instruccion"><div class="pc">	INY</div></div><div class="instruccion"><div class="pc">	DEY</div></div><div class="instruccion"><div class="pc">	MUL</div></div><div class="instruccion"><div class="pc">	XGDX</div></div><div class="instruccion"><div class="pc">	XGDY</div></div><div class="instruccion"><div class="pc">	NEGA</div></div><div class="instruccion"><div class="pc">	NEGB</div></div><div class="instruccion"><div class="pc">	END</div></div></div>
+<div id="output"><div class="instruccion"><div class="lineaCodigo">1</div>
+<div class="pc">8000</div>
+<div class="opcode">01</div>
+</div>
+<div class="instruccion"><div class="lineaCodigo">2</div>
+<div class="pc">8001</div>
+<div class="opcode">08</div>
+</div>
+<div class="instruccion"><div class="lineaCodigo">3</div>
+<div class="pc">8002</div>
+<div class="opcode">09</div>
+</div>
+<div class="instruccion">
+    <div class="lineaCodigo">4</div>
+<div class="pc">8003</div>
+<div class="opcode">1808</div>
+</div>
+<div class="instruccion"><div class="lineaCodigo">5</div>
+<div class="pc">8005</div>
+<div class="opcode">1809</div>
+</div>
+<div class="instruccion"><div class="lineaCodigo">6</div>
+<div class="pc">8007</div>
+<div class="opcode">3D</div>
+</div>
+<div class="instruccion"><div class="lineaCodigo">7</div>
+<div class="pc">8008</div>
+<div class="opcode">8F</div>
+</div>
+<div class="instruccion"><div class="lineaCodigo">8</div>
+<div class="pc">8009</div>
+<div class="opcode">188F</div>
+</div>
+<div class="instruccion"><div class="lineaCodigo">9</div>
+<div class="pc">800b</div>
+<div class="opcode">40</div>
+</div>
+<div class="instruccion"><div class="lineaCodigo">10</div>
+<div class="pc">800c</div>
+<div class="opcode">50</div>
+</div>
+</div>
+    </section>
+</body>
+</html>

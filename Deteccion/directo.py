@@ -1,4 +1,5 @@
 import re
+from typing import Pattern
 from Error import Error4,Error5,Error7,Error9
 from DataBase import BaseDatos
 

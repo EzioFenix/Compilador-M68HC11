@@ -198,15 +198,36 @@ Ahora veamos el resultado
 
 ![inmediato](Documentacion/Precompilar/PNG/inmediato.png)
 
-# Directo
+# Directo / Extendido
 
+- La diferencia entre ambos el tamaño del operando , y la búsqueda de mnemonico en la base de datos.
 
-
-# Extendido
+![directo_extendido](Documentacion/Precompilar/PNG/directo_extendido.png)
 
 # Indexado
 
+![indexado](Documentacion/Precompilar/PNG/indexado.png)
+
 # Relativo
+
+![relativo](Documentacion/Precompilar/PNG/relativo.png)
+
+- Recuerda que el `pcActual` es el pc actual de la siguiente instrucción, este caso sería `8002`
+
+## Ejemplo
+
+![image-20220102130947020](img/image-20220102130947020.png)
+
+La primera linea es donde esta **la etiqueta** , la segunda linea es el `pcAcutal de la siguiente instrucción`  Entonces la resta es `8003-800B +1`
+
+# Soportan etiquetas
+
+- Extendio
+
+```
+INICIO org $8000
+jmp INICIO == jump HEX(8000) = jump 8000
+```
 
 
 
@@ -220,3 +241,7 @@ Ahora veamos el resultado
 
 1. Busca si existe un archivo llamado `input.asc` con codificación ANSI lo lee en caso de que no exista, le crea un archivo con el nombre y se cierra.			
 2. A:\EyPC_Proyecto_1\ManipulacionArchivos
+
+# Documentación
+
+## Archivos para probar el 

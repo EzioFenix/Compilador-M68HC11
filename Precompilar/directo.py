@@ -1,88 +1,86 @@
 import re
-from Error import Error4,Error5,Error7,Error9
-from DataBase import BaseDatos
+from Error import Error4,Error6,Error9
+from DataBase import BaseDatos,BdRow
+from .precompilada import precompilada
+from typing import Pattern
 
-def q0(linea:str):
-    print(linea)
-    resultado=False
-    pattern='^\s+'
-    busqueda=re.search(pattern,linea)
-    
-    if busqueda:
-        inicioSiguiente =busqueda.end() #puede iniciar en 0 hasta indice final
-        return q1(linea[inicioSiguiente:])
-    else:
-        busqueda=re.search(pattern,' '+linea)
-        if busqueda:
-            inicioSiguiente =busqueda.end()-1 #puede iniciar en 0 hasta indice final
-        if q1(linea[inicioSiguiente:]) == True:
-            raise Error9.Error9('')
+def precompilar(numLinea:int,linea: str,pc:str)-> precompilada:
+    # variables globales funcion
+    error=''
+    operandoPrecompilado=''
 
-def  q1(linea:str):
-    print(linea)
-    pattern='^[a-zA-Z]+'
-    busqueda=re.search(pattern, linea)
-    
-    if busqueda:
-        return q3(linea)
-    else:
-        return False
-    
-def q3(linea:str):
-    print(linea)
-    pattern='^[a-zA-Z]+'
-    busqueda=re.search(pattern, linea)
-    
-    finalActual =busqueda.end()
-    inicioActual=busqueda.start()
-    
-    
-    instruccion=linea[inicioActual:finalActual]
-    instruccion=instruccion.lower()
-    print(instruccion)
+    # Buscamos el mnemonico
+    pattern='[a-zA-Z]{3,5}'
+    mnemonicoBusqueda=re.search(pattern,linea,re.IGNORECASE)
 
-    
-    if BaseDatos.bdSearch(instruccion,3)!=None:
-        return q5(linea[finalActual:])
-    else:
-        raise Error4.Error4('')
-    
-def q5(linea:str):
-    print('q4')
-    print(linea)
-    pattern='^\s+'
-    busqueda=re.search(pattern,linea)
-    
-    if busqueda:
-        inicioSiguiente =busqueda.end()
-        return q7(linea[inicioSiguiente:])
-    else:
-        raise Error5.Error5('')
-    
-def q7(linea:str):
-    print('q7 ' + linea)
+    # Obtenemos el mnemonico-------------------------------
+    mnemonicoInicio=mnemonicoBusqueda.start()
+    mnemonicoFin=mnemonicoBusqueda.end()
+    mnemonico =linea[mnemonicoInicio:mnemonicoFin]
+
+    # Consulta a la base de datos-------------------------------
+    consultaBd:BdRow = BaseDatos.bdSearch(mnemonico,3)
+
+    # Detectamos el tipo de operando
+    pattern='[a-zA-Z]{3,5}\s+'
     pattern1='^\$([0-9]|[a-f]|[A-F]){1,2}$' #Hex
     pattern2='^[0-9]{1,3}$' # Dec
-    busqueda1=re.search(pattern1,linea)
-    busqueda2=re.search(pattern2,linea)
+    busqueda=re.search(pattern,linea)
+    inicioOperando=busqueda.start()
 
-    if busqueda1 or busqueda2:
-        return True
-    else:
-        raise Error7.Error7('')
-    
-    
-def detectar(linea:str):
-    try:
-        print(q0(linea)) 
-    except Error4.Error4:
-        print('004  MNEMÓNICO INEXISTENTE')
-    except Error5.Error5:
-        print('005  INSTRUCCIÓN CARECE DE OPERANDO(S)')
-    except Error7.Error7:
-        print('007  MAGNITUD DE OPERANDO ERRONEA')
-    except Error9.Error9:
-        print ('009  INSTRUCCIÓN CARECE DE ALMENOS UN ESPACIO RELATIVO AL MARGEN')
-    except Exception as e: 
-        print ("This is an error message!{}".format(e))
+    # A partir del hashtrag buscamos el operando
+    busqueda1=re.search(pattern1,linea[inicioOperando:])
+    busqueda2=re.search(pattern2,linea[inicioOperando:])
+
+    if busqueda1: #Hex
+        inicio=busqueda1.start()
+        fin=busqueda1.end()
+
+        #--- Parece tonto,pero elimina los ceros de más, si conviertes 2 veces
+        operando:str='0x' + linea[inicio:fin]
+        operando:int=int(operando,16)
+        operando:str=hex(operando)
+
+        # Calculamos  los bytes de cada cosa
+        bytesOperando=int(round((len(operando)-2)/2)) # le menos 2 es por 0x, el round es porque 3 digitos son 2 bytes
+        bytesOpcode=int(round( len(consultaBd.opcode)/2))
+        bytesOcupados= bytesOperando+ bytesOpcode
+        bytesRestantes=consultaBd.bytes- bytesOcupados
+
+        # Comprobamos si el operando es correcto
+        if 0<=bytesRestantes: # Queda espacio o no
+            operandoPrecompilado= linea[inicio:fin]
+        else:
+            error='e07'
+    elif busqueda2: # Dec
+        inicio=busqueda2.start()
+        fin=busqueda2.end()
+        operando=int(linea[inicio:fin])
+
+        # Compilamos el operando a hex
+        operando:str=hex(operando)
         
+        #--- Parece tonto pero elimina los ceros de más, si conviertes 2 veces
+        operando:str='0x' + linea[inicio:fin]
+        operando:int=int(operando,16)
+        operando:str=hex(operando)
+
+        # Calculamos  los bytes de cada cosa
+        bytesOperando=int(round((len(operando)-2)/2)) # le menos 2 es por 0x, el round es porque 3 digitos son 2 bytes
+        bytesOpcode=int(round( len(consultaBd.opcode)/2))
+        bytesOcupados= bytesOperando+ bytesOpcode
+        bytesRestantes=consultaBd.bytes- bytesOcupados
+
+        # Comprobamos si el operando es correcto
+        if 0<=bytesRestantes:
+            operandoPrecompilado= linea[inicio:fin]
+        else:
+            error='e07'
+
+    # Datos directos--------------------------------------
+    lineaPrecompilada=precompilada(numLinea,pc,consultaBd.opcode,operando,consultaBd.byte)
+
+    # Datos detivados-----------------------------------
+    lineaPrecompilada.bytesOcupados=consultaBd.byte
+
+    return lineaPrecompilada

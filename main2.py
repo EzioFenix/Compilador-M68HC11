@@ -14,6 +14,7 @@ import Deteccion.variable_constante as deVariable
 #---------------------------- importacioens precompilar paso 2----------------------------
 import Precompilar.inherente as preInherente
 import Precompilar.org as preOrg
+from Precompilar.precompilada import precompilada
 import Precompilar.programCounter as prePc
 
 def leerProgramaRam()-> list:
@@ -40,9 +41,12 @@ def eliminarLineasVacias(programa_Paso1:list)->list:
 
 
 def main():
-    programa_Paso1=[] # programa leido en memoria ram
-    programa_Paso2=[] # almacena el modo en el que esta detectado
-    programa_Paso3=[]
+    nombreSalida='output.html'
+    programa_Paso1:list[str]=[] # programa leido en memoria ram
+    programa_Paso2:list[str]=[] # almacena el modo en el que esta detectado
+    programa_Paso3:list|str=[] # Almacena el tipo precompilado o 'null' en caso de directiva
+    programa_Paso4_Humana:list[str]=[] # Almacena el tipo compilacion humana
+    programa_Paso4_S19:list[str]=[] # Almacena la compilacion s19
     PC=prePc.programCounter()
     lista_errores=['001 CONSTANTE INEXISTENTE',
     '002 VARIABLE INEXISTENTE',
@@ -109,8 +113,9 @@ def main():
     #print(programa_Paso2)
 
     # Paso 3 Precompilar-----------------------------------------
-    indice=0
+    indice=0 # indice para recorrar las instruccioens precompiladas
     isEnd=False # Detecta si el end apareció en el programa
+    numLinea=0 # Linea del programa a la izquierda del programa
     for linea in programa_Paso2:
         precompilacionValor=''
         if linea[0]=='d': #directiva
@@ -121,16 +126,17 @@ def main():
             if linea[1]=='1': # End
                 isEnd=True
                 precompilacionValor='null'
-                programa_Paso3.append(precompilacionValor)
+                programa_Paso3.append(precompilacionValor) # Como hay break, no se guarda el valor, por ello mejor directo
                 break
-            if linea[1]=='2':
+            if linea[1]=='2': # variable
                 pass
-            if linea[1]=='3':
+            if linea[1]=='3': # etiqueta
                 pass
         elif linea[0]=='m': # Modo
+            pcAux=PC.get()
+            numLinea+=1
             if linea[1]=='0': #inherente
-                pcAux=PC.get()
-                precompilacionValor= preInherente.precompilar(programa_Paso1[indice],pcAux)
+                precompilacionValor= preInherente.precompilar(numLinea,linea,programa_Paso1[indice],pcAux)
                 pcAux=precompilacionValor.bytesOcupados
                 print(pcAux)
                 PC.incrementar(pcAux)
@@ -150,6 +156,7 @@ def main():
             numero=int(linea[1:])
             precompilacionValor=lista_errores[numero]
 
+        # agregamos la intrucción y avanzamos a la sigueitne istrucción
         programa_Paso3.append(precompilacionValor)
         indice+=1 
 
@@ -157,6 +164,62 @@ def main():
     for i in range(0,len(programa_Paso2)):
         print(programa_Paso1[i] + ' ' +programa_Paso2[i] )
         print(programa_Paso3[i])
+
+
+    ## Compilado humano---------------------------------------------
+
+    # generamos la compilación humana
+    for linea in programa_Paso3:
+        linea:precompilada
+        if linea!='null':
+            programa_Paso4_Humana.append(linea.compilacionHumana())
+
+    ## Creamos l archivo para guardar el html
+    with open(nombreSalida, 'w') as f:
+        # archivos de donde lee el inicio y final de archivo
+        inicio='./compilar/inicio.html'
+        fin='./compilar/fin.html'
+
+        # Ejemplo de instrucción
+        """
+        <div id="input">
+            
+            <div class="instruccion">
+                <div class="lineaCodigo">001</div>
+                <div class="pc">8000</div> 
+                <div class="opcode">4F</div>
+                <div class="operador">FF</div>
+                <div class="directiva">001</div>
+                <div class="error">8000</div> 
+                <div class="comentario">4F</div>
+            </div>
+        </div>
+        """
+
+        # Partes de html que se escribiran las instrucciónes no compiladas
+        divInstruc='<div class="instruccion"><div class="pc">%s</div></div>\n'
+
+        # escribimos el inicio del html-----------------
+        with open (inicio) as r:
+            f.writelines(r.readlines())
+
+        # escribimos lo der achivo input------------------
+        f.write('<div id="input">')   
+        for linea in programa_Paso1:
+            aux=divInstruc%(linea)
+            f.write(aux)
+        f.write('</div>\n')
+        
+        # escribimos la salida-----------------------------
+        f.write('<div id="output">') 
+        for linea in programa_Paso4_Humana:
+            f.write(linea)
+        f.write('</div>\n')
+
+        # escribimos el inicio del html-----------------
+        with open (fin) as r:
+            f.writelines(r.readlines())
+
 
 if __name__== "__main__":
     main()
