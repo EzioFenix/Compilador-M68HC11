@@ -66,7 +66,7 @@ class precompilada():
                 aux=[numLinea,pc,opcode]
                 #print(aux)
 
-                if self.modo=='m1':
+                if self.modo=='m1' or self.modo=='m2':
                     operandoHtml=self.htmlDiv(self.operando,'operador')
                     aux.append(operandoHtml)
 

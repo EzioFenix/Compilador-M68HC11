@@ -17,15 +17,15 @@ Es un compilador para la materia de Estructura y programación de computadoras i
 
 ### Paso 3 Detectar ¿Qué es?
 
-Cada línea de código tiene que caer en las siguientes categorias:
+Cada línea de código tiene que caer en las siguientes categorías:
 
 - Variable o constante =V
-- Directiva =D
-  - org D1
-  - end D2
-- Modo operación
-  - Inherente =M1
-  - Inmediato =M2
+- Directiva =d
+  - org d0
+  - end d1
+- Modo operación = m
+  - Inherente =m0
+  - Inmediato =m1
 
 En caso de que no tenga la forma deseada de la instrucción, tendrá  que regresar que tipo de error es.
 
@@ -255,3 +255,9 @@ jmp INICIO == jump HEX(8000) = jump 8000
 ![image-20220104145955518](img/image-20220104145955518.png)
 
 ## Puro inmediato
+
+![image-20220104185434931](img/image-20220104185434931.png)
+
+## Puro directo
+
+![image-20220104204424511](img/image-20220104204424511.png)

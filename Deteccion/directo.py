@@ -81,6 +81,7 @@ def detectar(linea:str)-> str:
         return 'e04'
         #print('004  MNEMÓNICO INEXISTENTE')
     except Error5.Error5:
+        print('nel')
         return 'e05'
         #print('005  INSTRUCCIÓN CARECE DE OPERANDO(S)')
     except Error7.Error7:

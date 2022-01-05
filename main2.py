@@ -14,6 +14,7 @@ import Deteccion.variable_constante as deVariable
 #---------------------------- importacioens precompilar paso 2----------------------------
 import Precompilar.inherente as preInherente
 import Precompilar.inmediato as preInmediato
+import Precompilar.directo as preDirecto
 import Precompilar.org as preOrg
 from Precompilar.precompilada import precompilada
 import Precompilar.programCounter as prePc
@@ -158,7 +159,10 @@ def main():
                 PC.incrementar(pcAux)
                 print(precompilacionValor)
             if linea[1]=='2':
-                pass
+                precompilacionValor=preDirecto.precompilar(numLinea,modo,programa_Paso1[indice],pcAux)
+                pcAux=precompilacionValor.bytesOcupados
+                PC.incrementar(pcAux)
+                print(precompilacionValor)
             if linea[1]=='3':
                 pass
             if linea[1]=='4':

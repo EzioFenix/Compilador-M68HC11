@@ -59,7 +59,7 @@ def q5(linea:str)->str:
         inicioSiguiente =busqueda.end()
         return q7(linea[inicioSiguiente:])
     else:
-        raise Error5.Error5('')
+        return 'false'
 
 
 def q7(linea:str)->str:
