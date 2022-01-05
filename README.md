@@ -269,7 +269,9 @@ jmp INICIO == jump HEX(8000) = jump 8000
 
 ## Puro Indexado
 
+`input4.asc`
 
+![image-20220105141044739](img/image-20220105141044739.png)
 
 ## Puro relativo
 

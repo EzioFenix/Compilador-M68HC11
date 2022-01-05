@@ -16,6 +16,8 @@ import Precompilar.inherente as preInherente
 import Precompilar.inmediato as preInmediato
 import Precompilar.directo as preDirecto
 import Precompilar.extendido as preExtendido
+import Precompilar.indexadoX as preIndeX
+import Precompilar.indexadoY as preIndeY
 import Precompilar.org as preOrg
 from Precompilar.precompilada import precompilada
 import Precompilar.programCounter as prePc
@@ -104,13 +106,13 @@ def main():
         if modo=='':
             ## Detectar mnemonicos---------------------------------------------
             Modos_Deteccion=[
-            deIherente.detectar,
-            deInmediato.detectar,
-            deDirecto.detectar,
-            deExtendido.detectar,
-            deIndeX.detectar,
-            deIndeY.detectar,
-            deRelativo.detectar
+            deIherente.detectar, #0
+            deInmediato.detectar, #1
+            deDirecto.detectar, #2
+            deExtendido.detectar, #3
+            deIndeX.detectar, #4
+            deIndeY.detectar, #5
+            deRelativo.detectar #6
             ]
             
             for detectarIndice in range(0,len(Modos_Deteccion)):
@@ -176,11 +178,17 @@ def main():
                 pcAux=precompilacionValor.bytesOcupados
                 PC.incrementar(pcAux)
                 print(precompilacionValor)
-            if linea[1]=='4':
-                pass
-            if linea[1]=='5':
-                pass
-            if linea[1]=='6':
+            if linea[1]=='4': #indexadoX
+                precompilacionValor=preIndeX.precompilar(numLinea,modo,programa_Paso1[indice],pcAux)
+                pcAux=precompilacionValor.bytesOcupados
+                PC.incrementar(pcAux)
+                print(precompilacionValor)
+            if linea[1]=='5': # IndexadoY
+                precompilacionValor=preIndeY.precompilar(numLinea,modo,programa_Paso1[indice],pcAux)
+                pcAux=precompilacionValor.bytesOcupados
+                PC.incrementar(pcAux)
+                print(precompilacionValor)
+            if linea[1]=='6': # Relativo
                 pass
         elif linea[0]=='e': # error
             numero=int(linea[1:])

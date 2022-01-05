@@ -63,7 +63,7 @@ def q4(linea:str)->str:
 
 def q5(linea:str)-> str:
     #print('q5 ' + linea)
-    pattern='^\$([0-9]|[a-f]|[A-F]){1,4}' #Hex
+    pattern='^\$([0-9]|[a-f]|[A-F]){1,2}' #Hex
     pattern2='\S+'
     busqueda=re.search(pattern,linea)
     busqueda2=re.search(pattern2,linea)
@@ -81,12 +81,17 @@ def q5(linea:str)-> str:
 def q8(linea:str)-> str:
     #print('q7 '+ linea)
     pattern='^,(y|Y)$'
+    pattern2='^,(x|X)$'
     busqueda=re.search(pattern, linea)
+    busqueda2=re.search(pattern2,linea)
     
     if busqueda:
         return 'true'
     else:
-        raise Error7.Error7('')
+        if busqueda2:
+            return 'false'
+        else:
+            raise Error7.Error7('')
 
 
 def detectar(linea:str):
