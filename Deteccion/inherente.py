@@ -4,20 +4,23 @@ from DataBase import BaseDatos
 
 def q0(linea:str):
     #print('q0' + linea)
-    resultado=''
     pattern='^\s+'
     busqueda=re.search(pattern,linea)
-    
     
     if busqueda:
         inicioSiguiente =busqueda.end() #puede iniciar en 0 hasta indice final
         return q1(linea[inicioSiguiente:])
     else:
+        # Es este modo y le falto espacio al inicio
         busqueda=re.search(pattern,' '+linea)
         if busqueda:
             inicioSiguiente =busqueda.end()-1 #puede iniciar en 0 hasta indice final
-        if q1(linea[inicioSiguiente:]) =='true':
-            raise Error9.Error9('')
+            if q1(linea[inicioSiguiente:]) =='true':
+                raise Error9.Error9('') # Espacio en el margen
+            else:
+                return 'false'
+        else:
+            return 'false'
 
 def  q1(linea:str):
     # print('q1 ' + linea)
@@ -42,6 +45,8 @@ def q2(linea:str):
         
         if BaseDatos.bdSearch(instruccion,1)!=None:
             return q5(linea[finalActual:])
+        else:
+            raise Error4.Error4('')
     else:
         raise Error4.Error4('')
     
@@ -53,7 +58,6 @@ def q5(linea:str):
     if busqueda:
         return 'true'
     else:
-        
         raise Error6.Error6('')
     
     

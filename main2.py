@@ -13,6 +13,7 @@ import Deteccion.end as deEnd
 import Deteccion.variable_constante as deVariable
 #---------------------------- importacioens precompilar paso 2----------------------------
 import Precompilar.inherente as preInherente
+import Precompilar.inmediato as preInmediato
 import Precompilar.org as preOrg
 from Precompilar.precompilada import precompilada
 import Precompilar.programCounter as prePc
@@ -59,6 +60,8 @@ def main():
     '009 INSTRUCCIÓN CARECE DE ALMENOS UN ESPACIO RELATIVO AL MARGEN',
     '010 NO SE ENCUENTRA END',
     '011 VARIABLE REPETIDA']
+
+    # Paso 1 Leer de memoria y limpiarlo---------------------------------------------
     programa_Paso1=leerProgramaRam()
 
     if programa_Paso1 ==None:
@@ -66,11 +69,13 @@ def main():
     else:
         programa_Paso1=eliminarLineasVacias(programa_Paso1)
         print(programa_Paso1)
-        
-    # Detectamos el tipo de instrucción
-    
+
+    # Paso 2 detectamos los modos de operación de cada instrucción---------------------
+        # Variables globales
     modoActual=1
     contadorError004=0
+
+        # Reccorremos la lineas del paso 1
     for linea in programa_Paso1:
         modo=''
         
@@ -78,6 +83,13 @@ def main():
         Directivas_Deteccion=[deOrg.detectar,deEnd.detectar,deVariable.detectar]
         for detectarIndice in range(0,len(Directivas_Deteccion)):
             valor=Directivas_Deteccion[detectarIndice] (linea)
+
+            """
+            Valor puede tomar diferentes valores
+            - valor='true' ==> significa que el modo actual es el correcto
+                si por ejemplo esta en deOrg.detectar y true entoces es modo
+            - valor='e09' ==> error 09
+            """
             
             #print(valor)
             if valor[0]=='t':
@@ -110,7 +122,7 @@ def main():
                 modo='e04'
         
         programa_Paso2.append(modo)
-    #print(programa_Paso2)
+    print(programa_Paso2)
 
     # Paso 3 Precompilar-----------------------------------------
     indice=0 # indice para recorrar las instruccioens precompiladas
@@ -134,14 +146,17 @@ def main():
                 pass
         elif linea[0]=='m': # Modo
             pcAux=PC.get()
+            modo=linea
             numLinea+=1
             if linea[1]=='0': #inherente
-                precompilacionValor= preInherente.precompilar(numLinea,linea,programa_Paso1[indice],pcAux)
+                precompilacionValor= preInherente.precompilar(numLinea,modo,programa_Paso1[indice],pcAux)
                 pcAux=precompilacionValor.bytesOcupados
-                print(pcAux)
                 PC.incrementar(pcAux)
             if linea[1]=='1': #inmediato
-                pass
+                precompilacionValor=preInmediato.precompilar(numLinea,modo,programa_Paso1[indice],pcAux)
+                pcAux=precompilacionValor.bytesOcupados
+                PC.incrementar(pcAux)
+                print(precompilacionValor)
             if linea[1]=='2':
                 pass
             if linea[1]=='3':
@@ -170,7 +185,7 @@ def main():
 
     # generamos la compilación humana
     for linea in programa_Paso3:
-        linea:precompilada
+        linea:precompilada|str
         if linea!='null':
             programa_Paso4_Humana.append(linea.compilacionHumana())
 

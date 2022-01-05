@@ -59,12 +59,16 @@ class precompilada():
         else:
             pcImprimir=self.pcActual[2:] #0x01 => 01
             print(self.modo)
-            if self.modo =='m0': #inherente
+            if self.modo[0] =='m': #inherente
                 numLinea=self.htmlDiv(str(self.numLinea),'lineaCodigo')
                 pc=self.htmlDiv(pcImprimir,'pc')
                 opcode= self.htmlDiv(self.opcode,'opcode')
                 aux=[numLinea,pc,opcode]
                 #print(aux)
+
+                if self.modo=='m1':
+                    operandoHtml=self.htmlDiv(self.operando,'operador')
+                    aux.append(operandoHtml)
 
 
             # Unimos todo el texto que se tiene que devolver
