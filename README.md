@@ -260,4 +260,23 @@ jmp INICIO == jump HEX(8000) = jump 8000
 
 ## Puro directo
 
-![image-20220104204424511](img/image-20220104204424511.png)
+
+![image-20220104204424511](img/image-20220104204424511.png)	
+
+## Puro Extendido
+
+![image-20220105124532894](img/image-20220105124532894.png)
+
+## Puro Indexado
+
+
+
+## Puro relativo
+
+## Modo conjunto (varios modos)
+
+## Instrucciones especiales
+
+## Detección de errores
+
+## Modo s19 (varios modos)

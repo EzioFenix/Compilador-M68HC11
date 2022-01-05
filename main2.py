@@ -15,6 +15,7 @@ import Deteccion.variable_constante as deVariable
 import Precompilar.inherente as preInherente
 import Precompilar.inmediato as preInmediato
 import Precompilar.directo as preDirecto
+import Precompilar.extendido as preExtendido
 import Precompilar.org as preOrg
 from Precompilar.precompilada import precompilada
 import Precompilar.programCounter as prePc
@@ -102,8 +103,15 @@ def main():
             
         if modo=='':
             ## Detectar mnemonicos---------------------------------------------
-            Modos_Deteccion=[deIherente.detectar,deInmediato.detectar,deDirecto.detectar,deIndeX.detectar,deIndeY.detectar,
-                            deRelativo.detectar,deExtendido.detectar]
+            Modos_Deteccion=[
+            deIherente.detectar,
+            deInmediato.detectar,
+            deDirecto.detectar,
+            deExtendido.detectar,
+            deIndeX.detectar,
+            deIndeY.detectar,
+            deRelativo.detectar
+            ]
             
             for detectarIndice in range(0,len(Modos_Deteccion)):
                 
@@ -158,13 +166,16 @@ def main():
                 pcAux=precompilacionValor.bytesOcupados
                 PC.incrementar(pcAux)
                 print(precompilacionValor)
-            if linea[1]=='2':
+            if linea[1]=='2': # directo
                 precompilacionValor=preDirecto.precompilar(numLinea,modo,programa_Paso1[indice],pcAux)
                 pcAux=precompilacionValor.bytesOcupados
                 PC.incrementar(pcAux)
                 print(precompilacionValor)
-            if linea[1]=='3':
-                pass
+            if linea[1]=='3': # extendido
+                precompilacionValor=preExtendido.precompilar(numLinea,modo,programa_Paso1[indice],pcAux)
+                pcAux=precompilacionValor.bytesOcupados
+                PC.incrementar(pcAux)
+                print(precompilacionValor)
             if linea[1]=='4':
                 pass
             if linea[1]=='5':

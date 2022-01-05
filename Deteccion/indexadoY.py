@@ -12,10 +12,8 @@ def q0(linea:str)->str:
         inicioSiguiente =busqueda.end() #puede iniciar en 0 hasta indice final
         return q1(linea[inicioSiguiente:])
     else:
-        busqueda=re.search(pattern,' '+linea)
-        if busqueda:
-            inicioSiguiente =busqueda.end()-1 #puede iniciar en 0 hasta indice final
-        if q1(linea[inicioSiguiente:]) == 'true':
+        # estas parado en caracter , si es verdadero es que le faltaba espacio relativo
+        if q1(linea) == 'true':
             raise Error9.Error9('')
 
 
@@ -65,14 +63,19 @@ def q4(linea:str)->str:
 
 def q5(linea:str)-> str:
     #print('q5 ' + linea)
-    pattern1='^\$([0-9]|[a-f]|[A-F]){1,4}' #Hex
-    busqueda1=re.search(pattern1,linea)
-    finalActual =busqueda1.end()
+    pattern='^\$([0-9]|[a-f]|[A-F]){1,4}' #Hex
+    pattern2='\S+'
+    busqueda=re.search(pattern,linea)
+    busqueda2=re.search(pattern2,linea)
+    finalActual =busqueda.end()
 
-    if busqueda1:
+    if busqueda:
         return q8(linea[finalActual:])
     else:
-        raise Error7.Error7('')
+        if busqueda2:
+            return 'false'
+        else:
+            raise Error7.Error7('')
 
 
 def q8(linea:str)-> str:
