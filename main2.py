@@ -10,7 +10,7 @@ import Deteccion.relativo as deRelativo #m6
 import Deteccion.extendido as deExtendido #m7
 import Deteccion.org as deOrg
 import Deteccion.end as deEnd
-import Deteccion.variable_constante as deVariable
+import Deteccion.variable_constante as deVarConst
 #---------------------------- importacioens precompilar paso 2----------------------------
 import Precompilar.inherente as preInherente
 import Precompilar.inmediato as preInmediato
@@ -18,6 +18,7 @@ import Precompilar.directo as preDirecto
 import Precompilar.extendido as preExtendido
 import Precompilar.indexadoX as preIndeX
 import Precompilar.indexadoY as preIndeY
+import Precompilar.variable_constante as preVarConst
 import Precompilar.org as preOrg
 from Precompilar.precompilada import precompilada
 import Precompilar.programCounter as prePc
@@ -50,6 +51,7 @@ def main():
     programa_Paso1:list[str]=[] # programa leido en memoria ram
     programa_Paso2:list[str]=[] # almacena el modo en el que esta detectado
     programa_Paso3:list|str=[] # Almacena el tipo precompilado o 'null' en caso de directiva
+    programa_Paso3_Variables={} # Almacena las variables del programa
     programa_Paso4_Humana:list[str]=[] # Almacena el tipo compilacion humana
     programa_Paso4_S19:list[str]=[] # Almacena la compilacion s19
     PC=prePc.programCounter()
@@ -84,7 +86,7 @@ def main():
         modo=''
         
         ## Detectar Directivas-------------------------------------------
-        Directivas_Deteccion=[deOrg.detectar,deEnd.detectar,deVariable.detectar]
+        Directivas_Deteccion=[deOrg.detectar,deEnd.detectar,deVarConst.detectar]
         for detectarIndice in range(0,len(Directivas_Deteccion)):
             valor=Directivas_Deteccion[detectarIndice] (linea)
 
@@ -152,7 +154,14 @@ def main():
                 programa_Paso3.append(precompilacionValor) # Como hay break, no se guarda el valor, por ello mejor directo
                 break
             if linea[1]=='2': # variable
-                pass
+                claveVar,valorVar=preVarConst.precompilar(programa_Paso1[indice])
+
+                # Verificamos si existe la etiqueta 
+                if not claveVar in programa_Paso3_Variables:
+                    programa_Paso3_Variables[claveVar]=valorVar
+                    precompilacionValor='null'
+                else:
+                    precompilacionValor='e011' # Variable ya existente
             if linea[1]=='3': # etiqueta
                 pass
         elif linea[0]=='m': # Modo
@@ -192,7 +201,7 @@ def main():
                 pass
         elif linea[0]=='e': # error
             numero=int(linea[1:])
-            precompilacionValor=lista_errores[numero]
+            precompilacionValor=linea + ' '  + lista_errores[numero]
 
         # agregamos la intrucción y avanzamos a la sigueitne istrucción
         programa_Paso3.append(precompilacionValor)
@@ -209,7 +218,10 @@ def main():
     # generamos la compilación humana
     for linea in programa_Paso3:
         linea:precompilada|str
-        if linea!='null':
+        if isinstance(linea,str):
+            pass
+            # linea!='null' and linea[0]!='e':
+        else:
             programa_Paso4_Humana.append(linea.compilacionHumana())
 
     ## Creamos l archivo para guardar el html
@@ -257,6 +269,8 @@ def main():
         # escribimos el inicio del html-----------------
         with open (fin) as r:
             f.writelines(r.readlines())
+
+        print(programa_Paso3_Variables)
 
 
 if __name__== "__main__":

@@ -12,12 +12,10 @@ def q0(linea:str)->str:
         inicioSiguiente =busqueda.end() #puede iniciar en 0 hasta indice final
         return q3(linea[inicioSiguiente:])
     else:
-        busqueda=re.search(pattern,' '+linea)
-        inicioSiguiente =busqueda.end() #puede iniciar en 0 hasta indice final
-        if busqueda:
-            inicioSiguiente =busqueda.end()-1 #puede iniciar en 0 hasta indice final
-        if q3(linea[inicioSiguiente:]) == 'true':
+        if q3(linea)=='true':
             raise Error9.Error9('')
+        else:
+            return 'false'
 
     
 def q3(linea:str)-> str:

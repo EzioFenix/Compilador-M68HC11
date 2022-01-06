@@ -12,11 +12,11 @@ def q0(linea:str)->str:
         inicioSiguiente =busqueda.end() #puede iniciar en 0 hasta indice final
         return q2(linea[inicioSiguiente:])
     else:
-        busqueda=re.search(pattern,' '+linea)
-        if busqueda:
-            inicioSiguiente =busqueda.end()-1 #puede iniciar en 0 hasta indice final
-        if q2(linea[inicioSiguiente:]) == 'true':
+        if q2(linea)=='true':
             raise Error9.Error9('')
+        else:
+            return 'false'
+
 
 def  q2(linea:str)-> str:
     #print('q2 ' + linea)
@@ -32,7 +32,7 @@ def  q2(linea:str)-> str:
 def q3(linea:str)-> str:
     #print('q3 ' + linea)
     pattern1='$'
-    pattern2='\S+'
+    pattern2='\s+'
     
     busqueda1=re.search(pattern1, linea)
     busqueda2=re.search(pattern2, linea)

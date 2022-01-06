@@ -240,17 +240,34 @@ jmp INICIO == jump HEX(8000) = jump 8000
 # Uso
 
 1. Busca si existe un archivo llamado `input.asc` con codificación ANSI lo lee en caso de que no exista, le crea un archivo con el nombre y se cierra.			
-2. A:\EyPC_Proyecto_1\ManipulacionArchivos
+   2. A:\Ey	PC_Proyecto_1\ManipulacionArchivos
 
 # Documentación
+
+A continuación te explicaré como usar este programa, moverlo y hacerle lo que quieras de acuerdo a tus necesidades .
+
+## Archivos de prueba 
+
+Son archivos que puedes usar para probar diferentes funciones del programa
+
+## Inputs 
+
+Son archivos con los que probé el código y esta las captura en [](#rc)
+
+## Errores que detecta
+
+- 11 Variable duplicada, las variables son case sensitive, por ello escribir  `hola` a escribir `Hola` es muy diferente si ambas son nombres de variables.
+- 12 Longitud de variable es muy larga, el nombre de una variable no puede exceder los 12 caracteres.
 
 ## Archivos para probar el 
 
 
 
-# Resultado compilación
+<h1 name='rc'>Resultado compilación<h1>
 
 ## Puro inerente
+
+Para obtener el siguiente resultado 
 
 ![image-20220104145955518](img/image-20220104145955518.png)
 
@@ -274,6 +291,8 @@ jmp INICIO == jump HEX(8000) = jump 8000
 ![image-20220105141044739](img/image-20220105141044739.png)
 
 ## Puro relativo
+
+
 
 ## Modo conjunto (varios modos)
 
