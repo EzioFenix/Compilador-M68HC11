@@ -66,7 +66,7 @@ class precompilada():
                 aux=[numLinea,pc,opcode]
                 #print(aux)
 
-                if self.modo=='m1' or self.modo=='m2' or self.modo=='m3' or self.modo=='m4' or self.modo=='m5':
+                if self.modo=='m1' or self.modo=='m2' or self.modo=='m3' or self.modo=='m4' or self.modo=='m5' or self.modo=='m6':
                     operandoHtml=self.htmlDiv(self.operando,'operador')
                     aux.append(operandoHtml)
 

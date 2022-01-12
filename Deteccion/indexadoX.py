@@ -15,6 +15,8 @@ def q0(linea:str)->str:
         # estas parado en caracter , si es verdadero es que le faltaba espacio relativo
         if q2(linea) == 'true':
             raise Error9.Error9('')
+        else:
+            return 'false'
 
 
 def  q2(linea:str)->str:
@@ -67,12 +69,12 @@ def q5(linea:str)-> str:
     pattern2='\S+'
     busqueda=re.search(pattern,linea)
     busqueda2=re.search(pattern2,linea)
-    finalActual =busqueda.end()
 
     value=linea
     print(value)
 
     if busqueda:
+        finalActual =busqueda.end()
         return q8(linea[finalActual:])
     else:
         if busqueda2:
@@ -115,5 +117,5 @@ def detectar(linea:str):
         return 'e09'
         #print ('009  INSTRUCCIÓN CARECE DE ALMENOS UN ESPACIO RELATIVO AL MARGEN')
     except Exception as e: 
-        print ("This is an error message!{}".format(e))
+        print ("This is an error message! 4{}".format(e))
         

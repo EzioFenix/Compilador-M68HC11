@@ -124,6 +124,10 @@ linea='  ORG  $8000'
 
 ![Deteccion_End](Documentacion/Deteccion_End.png)
 
+### Etiquetas
+
+​				![Deteccion_Etiqueta](Documentacion/Deteccion_Etiqueta.png)
+
 ### Global
 
 ![Deteccion_Global](Documentacion/Deteccion_Global.png)
@@ -220,7 +224,17 @@ Ahora veamos el resultado
 
 La primera linea es donde esta **la etiqueta** , la segunda linea es el `pcAcutal de la siguiente instrucción`  Entonces la resta es `8003-800B +1`
 
-# Soportan etiquetas
+## Pasos para detectar las llamadas
+
+![deteccionEtiqueta](Documentacion/deteccionEtiqueta.png)
+
+- Paso 1 : Identificar cual es etiqueta, almacenarlo en un arreglo
+
+### Pasos para compilar etiqueta
+
+1. obtén la etiqeuta de la instrucción
+
+## Soportan etiquetas
 
 - Extendio
 
