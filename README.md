@@ -1,4 +1,17 @@
+``````
+Barrera Peña Víctor Miguel
+Estructura y Programación de computadoras
+Semestre 2022-1
+
+Proyecto 1 Compilador M68HC11
+``````
+
+
+
+
+
 # Compilador-M68HC11
+
 Es un compilador para la materia de Estructura y programación de computadoras implementado en python.
 
 ## Compilación explicada en pasos
@@ -278,8 +291,13 @@ Son archivos con los que probé el código y esta las captura en [](#rc)
 
 
 <h1 name='rc'>Resultado compilación<h1>
+Puedes probar con los archivos que se están en las diapositivas de compilación y muestra los resultados correctos
+
+y obtendrás los siguientes resultados, de las siguientes 5 compilaciones
 
 ## Puro inerente
+
+`input.asc`
 
 Para obtener el siguiente resultado 
 
@@ -287,14 +305,20 @@ Para obtener el siguiente resultado
 
 ## Puro inmediato
 
+`input5.asc`
+
 ![image-20220104185434931](img/image-20220104185434931.png)
 
 ## Puro directo
+
+`input2.asc`
 
 
 ![image-20220104204424511](img/image-20220104204424511.png)	
 
 ## Puro Extendido
+
+`input3.asc`
 
 ![image-20220105124532894](img/image-20220105124532894.png)
 
@@ -306,12 +330,12 @@ Para obtener el siguiente resultado
 
 ## Puro relativo
 
+`input6.asc`
 
-
-## Modo conjunto (varios modos)
+![image-20220111204028709](img/image-20220111204028709.png)
 
 ## Instrucciones especiales
 
 ## Detección de errores
 
-## Modo s19 (varios modos)
+## Modo s19 (varios modos)`
